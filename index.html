@@ -67,14 +67,6 @@
           </label>
         </div>
 
-        <!-- Sounds -->
-        <div class="row toggle-row" style="margin-top:20px;">
-          <label class="toggle-label">
-            <input type="checkbox" id="backgroundNoiseToggle" />
-            <span>Enable background noise</span>
-          </label>
-        </div>
-
         <!-- Background -->
         <div class="row" style="margin-top:20px;">
           <label>Background image</label>
@@ -98,6 +90,25 @@
     </section>
   </div>
 </div>
+<button id="bgNoiseBtn" class="bg-noise-btn" aria-pressed="false" aria-label="Toggle background noise">
+  <span class="bar"></span>
+  <span class="bar"></span>
+  <span class="bar"></span>
+</button>
+
+<div id="bgNoiseMenu" class="bg-noise-menu" aria-hidden="true">
+  <ul>
+    <li data-sound="street.mp3">Busy Street</li>
+    <li data-sound="rain.mp3">Rain</li>
+    <li data-sound="Airplane.mp3">Airplane Cabin</li>
+    <li data-sound="shopping-mall.mp3">Shopping Mall</li>
+  </ul>
+  <div id="volumeControl" style="padding: 10px; color: white;">
+  <label for="volumeSlider">Volume:</label>
+  <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
+</div>
+</div>
+
 
   <audio id="alarmSound" src="alarm.mp3" preload="auto"></audio>
 

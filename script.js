@@ -22,6 +22,40 @@ let state = {
   backgroundImage: 'photo1.webp',  // default background
 };
 
+let bgNoiseAudio = null;
+const volumeSlider = document.getElementById('volumeSlider');
+
+if (volumeSlider) {
+  volumeSlider.addEventListener('input', () => {
+    const volume = parseFloat(volumeSlider.value);
+    if (bgNoiseAudio) {
+      bgNoiseAudio.volume = volume;
+    }
+  });
+}
+
+
+function playBackgroundNoise(file) {
+  if (!file) {
+    console.warn('No sound file provided for background noise');
+    return;
+  }
+  if (bgNoiseAudio) {
+    bgNoiseAudio.pause();
+    bgNoiseAudio = null;
+  }
+  bgNoiseAudio = new Audio(file);
+  bgNoiseAudio.loop = true;
+  bgNoiseAudio.volume = 0.5;
+  bgNoiseAudio.play();
+}
+
+function stopBackgroundNoise() {
+  if (bgNoiseAudio) {
+    bgNoiseAudio.pause();
+    bgNoiseAudio = null;
+  }
+}
 /* DOM elements */
 const timerDisplay = document.getElementById('timerDisplay');
 const startBtn = document.getElementById('startBtn');
@@ -246,3 +280,79 @@ window.addEventListener('beforeunload', stopTimer);
 /* Initial UI update */
 updateTimerDisplay();
 updateProgressBar();
+
+
+const bgNoiseToggleBtn = document.getElementById('bgNoiseToggleBtn');
+if(bgNoiseToggleBtn){
+  bgNoiseToggleBtn.addEventListener('click', () => {
+    state.backgroundNoise = !state.backgroundNoise;
+
+    if(state.backgroundNoise){
+      playBackgroundNoise();
+      bgNoiseToggleBtn.setAttribute('aria-pressed', 'true');
+      bgNoiseToggleBtn.style.backgroundColor = '#ff5252';
+      bgNoiseToggleBtn.style.color = '#000';
+    } else {
+      stopBackgroundNoise();
+      bgNoiseToggleBtn.setAttribute('aria-pressed', 'false');
+      bgNoiseToggleBtn.style.backgroundColor = 'rgba(14, 20, 30, 0.8)';
+      bgNoiseToggleBtn.style.color = '#fff';
+    }
+  });
+}
+
+const bgNoiseBtn = document.getElementById('bgNoiseBtn');
+const bgNoiseMenu = document.getElementById('bgNoiseMenu');
+
+if(bgNoiseBtn && bgNoiseMenu){
+  bgNoiseBtn.addEventListener('click', () => {
+    const isOpen = bgNoiseMenu.classList.toggle('show');
+    bgNoiseBtn.setAttribute('aria-pressed', isOpen ? 'true' : 'false');
+  });
+
+  // Click outside to close menu
+  document.addEventListener('click', (e) => {
+    if (!bgNoiseMenu.contains(e.target) && !bgNoiseBtn.contains(e.target)) {
+      bgNoiseMenu.classList.remove('show');
+      bgNoiseBtn.setAttribute('aria-pressed', 'false');
+    }
+  });
+
+  bgNoiseMenu.querySelectorAll('li').forEach(item => {
+    item.addEventListener('click', () => {
+      const soundFile = item.dataset.sound;
+
+      if (state.backgroundNoise && state.currentSound === soundFile) {
+        stopBackgroundNoise();
+        state.currentSound = null;
+        bgNoiseMenu.querySelectorAll('li').forEach(li => li.classList.remove('selected'));
+        return;
+      }
+
+      playBackgroundNoise(soundFile);
+      state.currentSound = soundFile;
+
+      bgNoiseMenu.querySelectorAll('li').forEach(li => li.classList.remove('selected'));
+      item.classList.add('selected');
+    });
+  });
+}
+
+
+function playBackgroundNoise(file) {
+  if (!file) return;
+
+  if (bgNoiseAudio) {
+    bgNoiseAudio.pause();
+    bgNoiseAudio = null;
+  }
+  bgNoiseAudio = new Audio(file);
+  bgNoiseAudio.loop = true;
+  
+  // Set volume from slider or default 0.5
+  const vol = volumeSlider ? parseFloat(volumeSlider.value) : 0.5;
+  bgNoiseAudio.volume = vol;
+
+  bgNoiseAudio.play();
+}
+
