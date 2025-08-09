@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pomodoro — study vibe</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-overlay"></div>
+
+  <header>
+    <div class="logo">adamfejfar.com</div>
+    <button id="openSettings" class="icon-btn" aria-label="Open settings">⚙</button>
+  </header>
+
+  <main>
+    <div class="mode-row" role="tablist">
+      <button class="mode active" data-mode="pomodoro">pomodoro</button>
+      <button class="mode" data-mode="short">short break</button>
+      <button class="mode" data-mode="long">long break</button>
+    </div>
+
+    <div class="timer-wrap">
+      <div id="timerDisplay" class="timer">25:00</div>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="startBtn" class="primary">start</button>
+      <button id="pauseBtn" class="ghost">pause</button>
+      <button id="resetBtn" class="ghost">⟳</button>
+    </div>
+  </main>
+
+  <!-- Settings modal -->
+  <!-- Settings modal -->
+<div id="settingsModal" class="modal" aria-hidden="true">
+  <div class="modal-inner">
+    <section class="modal-body">
+      <header class="modal-header">
+        <button id="closeSettings" class="close-x" aria-label="Close settings"> </button>
+      </header>
+      <form id="settingsForm" class="settings-form">
+        <!-- Timers -->
+        <div class="row">
+          <label>Pomodoro</label>
+          <input type="number" id="inputPomodoro" min="1" value="25" />
+          <span class="muted">minutes</span>
+        </div>
+        <div class="row">
+          <label>Short Break</label>
+          <input type="number" id="inputShort" min="1" value="5" />
+          <span class="muted">minutes</span>
+        </div>
+        <div class="row">
+          <label>Long Break</label>
+          <input type="number" id="inputLong" min="1" value="10" />
+          <span class="muted">minutes</span>
+        </div>
+        <div class="row toggle-row">
+          <label class="toggle-label">
+            <input type="checkbox" id="sequenceToggle" />
+            <span>Use Pomodoro sequence (4x short, then long)</span>
+          </label>
+        </div>
+
+        <!-- Sounds -->
+        <div class="row toggle-row" style="margin-top:20px;">
+          <label class="toggle-label">
+            <input type="checkbox" id="backgroundNoiseToggle" />
+            <span>Enable background noise</span>
+          </label>
+        </div>
+
+        <!-- Background -->
+        <div class="row" style="margin-top:20px;">
+          <label>Background image</label>
+          <div class="custom-select">
+            <select id="backgroundSelect">
+              <option value="photo1.webp">Photo 1</option>
+              <option value="photo2.webp">Photo 2</option>
+              <option value="photo3.webp">Photo 3</option>
+              <option value="photo4.webp">Photo 4</option>
+              <option value="photo5.webp">Photo 5</option>
+              <option value="photo6.webp">Photo 6</option>
+            </select>
+          </div>
+        </div>
+        <!-- Buttons -->
+        <div class="modal-actions">
+          <button type="button" id="closeNoSave" class="btn-gray">Close</button>
+          <button type="submit" class="btn-primary">Save changes</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+
+  <audio id="alarmSound" src="alarm.mp3" preload="auto"></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>

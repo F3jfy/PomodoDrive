@@ -1,0 +1,279 @@
+:root{
+  --accent:#ffffff;
+  --pill-bg:rgba(255,255,255,0.12);
+  --white: #fff;
+  --muted: rgba(255,255,255,0.75);
+  --glass: rgba(0,0,0,0.55);
+}
+
+/* Background */
+html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,sans-serif}
+body{
+    transition: background-image 0.4s ease-in-out;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background: url('photo1.webp') center/cover no-repeat;
+  position:relative;
+  color:var(--white);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  .fade-bg-out {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.fade-bg-in {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+}
+
+/* dark overlay for contrast */
+.bg-overlay{
+  position:fixed;inset:0;background:rgba(14,20,30,0.36);z-index:0;
+}
+
+header{
+  position:fixed;top:24px;left:32px;z-index:5;display:flex;align-items:center;gap:12px;
+}
+.logo{font-size:1.2rem;font-weight:600;letter-spacing:0.2px}
+.icon-btn{
+  background:transparent;color:var(--white);border:none;font-size:1.1rem;cursor:pointer;padding:8px;border-radius:8px;
+}
+
+/* main centered UI */
+main{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:18px}
+
+/* mode pills */
+.mode-row{display:flex;gap:10px;margin-bottom:6px}
+.mode{
+  padding:8px 14px;border-radius:999px;border:none;background:var(--pill-bg);color:var(--white);cursor:pointer;font-weight:500;opacity:0.95;
+}
+.mode.active{background:var(--white);color:#000;box-shadow:0 6px 20px rgba(0,0,0,0.25)}
+
+/* timer + ring */
+.timer-wrap{position:relative;display:flex;align-items:center;flex-direction:column}
+.timer{
+  font-size:5.2rem;font-weight:800;letter-spacing:0.6px;margin:8px 0;background:linear-gradient(180deg,#fff,#eaeaea);-webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 2px 0 rgba(0,0,0,0.18);
+}
+/* Progress bar container */
+.progress-bar {
+  width: 200px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  margin-top: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 6px rgba(255,255,255,0.2);
+}
+
+/* Progress fill */
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #fff, #eaeaea);
+  border-radius: 6px 0 0 6px;
+  transition: width 0.4s linear;
+}
+
+/* controls */
+.controls{display:flex;gap:12px;justify-content:center}
+button.primary{
+  background:#fff;color:#000;padding:10px 20px;border-radius:999px;border:none;font-weight:700;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,0.25)
+}
+button.ghost{background:transparent;border:none;color:var(--white);padding:8px 12px;border-radius:999px;cursor:pointer}
+
+
+/* settings modal */
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:10}
+.modal.show{display:flex}
+
+.modal-inner{
+  width:min(920px,96%);background:#0b0b0b;border-radius:18px;padding:18px;display:flex;gap:18px;box-shadow:0 30px 80px rgba(0,0,0,0.6);
+}
+
+/* sidebar */
+.modal-sidebar{width:160px;border-right:1px solid rgba(255,255,255,0.04);padding-right:12px;display:flex;flex-direction:column;justify-content:space-between}
+.modal-sidebar nav{display:flex;flex-direction:column;gap:10px}
+.side-item{
+  text-align:left;background:transparent;color:#fff;border:none;padding:6px 8px;border-radius:8px;cursor:pointer;font-weight:600;opacity:0.9
+}
+.side-item.active{border-left:4px solid #ff5252;padding-left:6px;background:transparent}
+
+/* body */
+.modal-body {
+  flex: 1;
+  padding-left: 12px;
+  color: #fff;
+  display: flex; /* Make it a flex container */
+  flex-direction: column; /* Stack children vertically */
+  overflow-y: auto; /* Enable scrolling for content */
+}
+
+
+
+.modal-header{display:flex;justify-content:space-between;align-items:center}
+.modal-header h3{margin:0}
+.close-x{background:transparent;border:none;color:#fff;font-size:20px;cursor:pointer}
+
+/* settings form */
+.settings-form {
+  margin-top: 12px;
+  display: flex; /* Make it a flex container */
+  flex-direction: column; /* Stack children vertically */
+  gap: 12px;
+  flex-grow: 1; /* Allow the form to grow and take up available space */
+}
+.row{display:flex;align-items:center;gap:12px}
+.row label{min-width:120px;font-weight:700}
+.row input[type="number"], .row input[type="url"]{
+  background:transparent;border:1px solid rgba(255,255,255,0.09);padding:8px 10px;border-radius:8px;color:#fff;width:120px
+}
+.muted{color:rgba(255,255,255,0.6);font-size:13px;margin-left:6px}
+.toggle-row{align-items:center}
+.toggle-label{display:flex;align-items:center;gap:10px;font-weight:600}
+
+/* actions */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: auto; /* This is the key: pushes the div to the bottom */
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08); /* Optional separator line */
+}
+
+.btn-primary{background:#fff;color:#000;padding:10px 16px;border-radius:999px;border:none;font-weight:700;cursor:pointer}
+.btn-gray{background:rgba(255,255,255,0.08);color:#fff;padding:10px 14px;border-radius:999px;border:none;cursor:pointer}
+.reset-all{background:transparent;border:1px solid rgba(255,0,0,0.18);color:#ff6b6b;padding:8px 12px;border-radius:12px;cursor:pointer}
+
+/* small screens */
+@media (max-width:640px){
+  .modal-inner{flex-direction:column;padding:12px}
+  .modal-sidebar{width:100%;display:flex;flex-direction:row;gap:8px;border-right:none;padding-right:0}
+  .modal-body{padding-left:0}
+  .timer{font-size:3.6rem}
+}
+
+
+
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+
+  /* Start hidden & scaled down */
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.9);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal.show {
+  /* Fade in and scale up */
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+/* Optional: add easing to inner container for extra smoothness */
+.modal-inner {
+  transition: transform 0.3s ease;
+}
+body.modal-open {
+  overflow: hidden;
+}
+.settings-section {
+  display: none;
+}
+.settings-section.active {
+  display: block;
+}
+
+.settings-section {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute; /* stack on top */
+  top: 0; left: 0; right: 0; bottom: 0;
+  transition: opacity 0.3s ease;
+}
+
+.settings-section.active {
+  opacity: 1;
+  pointer-events: auto;
+  position: relative; /* active section takes up space */
+}
+
+
+/* Custom dropdown container */
+.custom-select {
+  position: relative;
+  width: 180px; /* adjust as needed */
+  font-family: Inter, system-ui, Arial, sans-serif;
+}
+
+/* Hide native arrow */
+.custom-select select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  width: 100%;
+  padding: 10px 40px 10px 14px;
+  background-color: #1a1a1a; /* deep dark */
+  color: #fff; /* white text */
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px; /* nice rounded corners */
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.4s ease, background-color 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Hover and focus states */
+.custom-select select:hover,
+.custom-select select:focus {
+  border-color: #ff5252; /* accent red */
+  background-color: #222; /* slightly lighter on hover/focus */
+  outline: none;
+  box-shadow: 0 6px 16px rgba(255, 82, 82, 0.6);
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Custom arrow */
+.custom-select::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  transform: translateY(-50%) rotate(45deg);
+  border-right: 2.5px solid #fff;
+  border-bottom: 2.5px solid #fff;
+  transition: border-color 0.3s ease;
+  border-radius: 2px;
+}
+
+/* Arrow color change on hover/focus */
+.custom-select select:hover + &::after,
+.custom-select select:focus + &::after {
+  border-color: #ff5252;
+}
+
+/* Optional: animate the arrow on focus */
+.custom-select select:focus + &::after {
+  transform: translateY(-50%) rotate(225deg);
+  transition: transform 0.4s ease, border-color 0.3s ease;
+}
+
