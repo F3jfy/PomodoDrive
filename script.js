@@ -282,24 +282,82 @@ updateTimerDisplay();
 updateProgressBar();
 
 
-const bgNoiseToggleBtn = document.getElementById('bgNoiseToggleBtn');
-if(bgNoiseToggleBtn){
-  bgNoiseToggleBtn.addEventListener('click', () => {
-    state.backgroundNoise = !state.backgroundNoise;
+const noiseToggleBtn = document.getElementById('noiseToggleBtn');
+const noiseStatus = document.getElementById('noiseStatus');
 
-    if(state.backgroundNoise){
-      playBackgroundNoise();
-      bgNoiseToggleBtn.setAttribute('aria-pressed', 'true');
-      bgNoiseToggleBtn.style.backgroundColor = '#ff5252';
-      bgNoiseToggleBtn.style.color = '#000';
+noiseToggleBtn.addEventListener('click', () => {
+  if (bgNoiseAudio && !bgNoiseAudio.paused) {
+    stopBackgroundNoise();
+    
+    noiseToggleBtn.style.color = '#e0e0e0';
+  } else {
+    if (state.currentSound) {
+      playBackgroundNoise(state.currentSound);
     } else {
+      // default noise if none selected
+      playBackgroundNoise('rain.mp3');
+      state.currentSound = 'rain.mp3';
+    }
+    
+    noiseToggleBtn.style.color = '#ff5252';
+  }
+});
+
+
+const toggleBtn = document.getElementById('toggleAudioBtn');
+const audioPanel = document.getElementById('audioPanel');
+
+toggleBtn.addEventListener('click', (e) => {
+  e.stopPropagation(); // Prevent this click from bubbling up and closing the panel immediately
+  audioPanel.classList.toggle('open');
+  // Also update aria-hidden for accessibility
+  audioPanel.setAttribute('aria-hidden', !audioPanel.classList.contains('open'));
+});
+
+// Close panel if clicking outside of it
+document.addEventListener('click', (e) => {
+  if (!audioPanel.contains(e.target) && !toggleBtn.contains(e.target)) {
+    audioPanel.classList.remove('open');
+    audioPanel.setAttribute('aria-hidden', 'true');
+  }
+});
+
+
+const noiseButtons = document.querySelectorAll('.noise-btn');
+
+noiseButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const soundFile = btn.dataset.sound;
+
+    // If clicked the currently playing sound AND noise is on, stop it
+    if(state.currentSound === soundFile && state.backgroundNoise) {
       stopBackgroundNoise();
-      bgNoiseToggleBtn.setAttribute('aria-pressed', 'false');
-      bgNoiseToggleBtn.style.backgroundColor = 'rgba(14, 20, 30, 0.8)';
-      bgNoiseToggleBtn.style.color = '#fff';
+      state.currentSound = null;
+      state.backgroundNoise = false;
+
+      // Update UI
+      btn.setAttribute('aria-pressed', 'false');
+      noiseToggleBtn.setAttribute('aria-pressed', 'false');
+      noiseToggleBtn.style.color = '#e0e0e0';
+      
+      
+    } else {
+      // Play new sound
+      playBackgroundNoise(soundFile);
+      state.currentSound = soundFile;
+      state.backgroundNoise = true;
+
+      // Update UI: mark this button active, others inactive
+      noiseButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+
+      noiseToggleBtn.setAttribute('aria-pressed', 'true');
+      noiseToggleBtn.style.color = '#ff5252';
+     
     }
   });
-}
+});
+
 
 const bgNoiseBtn = document.getElementById('bgNoiseBtn');
 const bgNoiseMenu = document.getElementById('bgNoiseMenu');
@@ -355,4 +413,5 @@ function playBackgroundNoise(file) {
 
   bgNoiseAudio.play();
 }
+
 
