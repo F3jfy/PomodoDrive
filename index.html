@@ -38,6 +38,10 @@
     </div>
   </main>
 
+  
+
+
+
   <!-- Settings modal -->
   <!-- Settings modal -->
 <div id="settingsModal" class="modal" aria-hidden="true">
@@ -93,24 +97,45 @@
     </section>
   </div>
 </div>
-<button id="bgNoiseBtn" class="bg-noise-btn" aria-pressed="false" aria-label="Toggle background noise">
-  <span class="bar"></span>
-  <span class="bar"></span>
-  <span class="bar"></span>
-</button>
+<!-- Toggle button always visible bottom-left -->
+<button id="toggleAudioBtn" class="audio-toggle-btn" aria-label="Open audio player">🎵</button>
 
-<div id="bgNoiseMenu" class="bg-noise-menu" aria-hidden="true">
-  <ul>
-    <li data-sound="street.mp3">Busy Street</li>
-    <li data-sound="rain.mp3">Rain</li>
-    <li data-sound="Airplane.mp3">Airplane Cabin</li>
-    <li data-sound="shopping-mall.mp3">Shopping Mall</li>
-  </ul>
-  <div id="volumeControl" style="padding: 10px; color: white;">
-  <label for="volumeSlider">Volume:</label>
-  <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
+<!-- The actual audio panel, hidden by default -->
+<div id="audioPanel" class="audio-panel" aria-hidden="true">
+
+  <!-- YouTube music player (reuse your existing yt-music-player HTML here) -->
+  <div class="yt-music-player">
+    <!-- your yt player controls here -->
+    <img id="ytAlbumArt" class="album-art" src="https://i.imgur.com/325tCIz.png" alt="Album Art">
+    <div class="track-info">
+       <div id="youtube-player-container"></div>
+      <div id="ytSongTitle" class="song-title">Lofi Music</div>
+      <div id="ytSongArtist" class="song-artist">YouTube</div>
+    </div>
+    <div class="player-controls">
+      <button id="ytPrevBtn" title="Previous">⏮</button>
+      <button id="ytPlayPauseBtn" title="Play/Pause">▶</button>
+      <button id="ytNextBtn" title="Next">⏭</button>
+    </div>
+  </div>
+
+  <!-- Background noise player -->
+  <div class="bg-noise-player">
+    <div class="noise-sound-buttons">
+      <button class="noise-btn" data-sound="airplane.mp3" aria-pressed="false" title="Airplane Cabin">✈️ <span>Airplane</span></button>
+      <button class="noise-btn" data-sound="rain.mp3" aria-pressed="false" title="Rain">🌧️ <span>Rain</span></button>
+      <button class="noise-btn" data-sound="street.mp3" aria-pressed="false" title="Busy Street">🚦 <span>Street</span></button>
+      <button class="noise-btn" data-sound="mall.mp3" aria-pressed="false" title="Shopping Mall">🛍️ <span>Mall</span></button>
+    </div>
+    <div class="noise-controls">
+      <button id="noiseToggleBtn" aria-pressed="false" title="Toggle Noise">🔈</button>
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
+    </div>
+  </div>
 </div>
-</div>
+
+
+
 
 
   <audio id="alarmSound" src="alarm.mp3" preload="auto"></audio>
@@ -118,3 +143,70 @@
   <script src="script.js"></script>
 </body>
 </html>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  let ytPlayer;
+  const playlistId = 'PLxbcSyNvOY2_PE19P4u4s9GL3pSdHm744';
+
+  // This function is called by the YouTube Iframe API when it's ready
+  function onYouTubeIframeAPIReady() {
+    ytPlayer = new YT.Player('youtube-player-container', {
+      height: '0',
+      width: '0',
+      playerVars: {
+        listType: 'playlist',
+        list: playlistId,
+      },
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  // The API will call this function when the video player is ready.
+  function onPlayerReady(event) {
+    // Mute the player by default if you don't want sound immediately
+    event.target.setVolume(50); // Set initial volume to 50%
+    console.log("YouTube Player is ready.");
+  }
+
+  // This function is called when the player's state changes.
+  function onPlayerStateChange(event) {
+    const playPauseBtn = document.getElementById('ytPlayPauseBtn');
+    if (event.data == YT.PlayerState.PLAYING) {
+      playPauseBtn.textContent = '⏸';
+      updatePlayerInfo();
+    } else {
+      playPauseBtn.textContent = '▶';
+    }
+  }
+  
+  // Function to update the album art and text in our custom player
+  function updatePlayerInfo() {
+      if (ytPlayer && typeof ytPlayer.getVideoData === 'function') {
+        const videoData = ytPlayer.getVideoData();
+        const videoId = videoData.video_id;
+        document.getElementById('ytAlbumArt').src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+        document.getElementById('ytSongTitle').textContent = videoData.title;
+        document.getElementById('ytSongArtist').textContent = videoData.author;
+      }
+  }
+
+  // Add event listeners to our custom buttons
+  document.getElementById('ytPlayPauseBtn').addEventListener('click', () => {
+    if (ytPlayer.getPlayerState() == YT.PlayerState.PLAYING) {
+      ytPlayer.pauseVideo();
+    } else {
+      ytPlayer.playVideo();
+    }
+  });
+
+  document.getElementById('ytNextBtn').addEventListener('click', () => {
+    ytPlayer.nextVideo();
+  });
+
+  document.getElementById('ytPrevBtn').addEventListener('click', () => {
+    ytPlayer.previousVideo();
+  });
+</script>
