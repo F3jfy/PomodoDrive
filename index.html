@@ -4,15 +4,23 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>PomodoroDrive</title>
- <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+
+  <!-- Styles & favicon -->
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="icon.svg">
-  
-  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="icon" type="image/png" href="icon.svg" />
+  <link rel="apple-touch-icon" href="icon.svg" />
 </head>
+
 <body>
+  <div id="loader-overlay" class="loader-overlay">
+  <img src="gtr.png" alt="Car Loader" class="loader-car">
+</div>
+
   <div class="bg-overlay"></div>
 
   <header>
@@ -41,179 +49,155 @@
     </div>
   </main>
 
-  
-
-
-
   <!-- Settings modal -->
-  <!-- Settings modal -->
-<div id="settingsModal" class="modal" aria-hidden="true">
-  <div class="modal-inner">
-    <section class="modal-body">
-      <header class="modal-header">
-        <button id="closeSettings" class="close-x" aria-label="Close settings"> </button>
-      </header>
-      <form id="settingsForm" class="settings-form">
-        <!-- Timers -->
-        <div class="row">
-          <label>Pomodoro</label>
-          <input type="number" id="inputPomodoro" min="1" value="25" />
-          <span class="muted">minutes</span>
-        </div>
-        <div class="row">
-          <label>Short Break</label>
-          <input type="number" id="inputShort" min="1" value="5" />
-          <span class="muted">minutes</span>
-        </div>
-        <div class="row">
-          <label>Long Break</label>
-          <input type="number" id="inputLong" min="1" value="10" />
-          <span class="muted">minutes</span>
-        </div>
-        <div class="row toggle-row">
-          <label class="toggle-label">
-            <input type="checkbox" id="sequenceToggle" />
-            <span>Use Pomodoro sequence (4x short, then long)</span>
-          </label>
-        </div>
+  <div id="settingsModal" class="modal" aria-hidden="true">
+    <div class="modal-inner">
+      <section class="modal-body">
+        <header class="modal-header">
+          <button id="closeSettings" class="close-x" aria-label="Close settings">×</button>
+        </header>
 
-        <!-- Background -->
-        <div class="row" style="margin-top:20px;">
-          <label>Background image</label>
-          <div class="custom-select">
-            <select id="backgroundSelect">
-              <option value="photo1.webp">Photo 1</option>
-              <option value="photo2.webp">Photo 2</option>
-              <option value="photo3.webp">Photo 3</option>
-              <option value="photo4.webp">Photo 4</option>
-              <option value="photo5.webp">Photo 5</option>
-              <option value="photo6.webp">Photo 6</option>
-            </select>
+        <form id="settingsForm" class="settings-form">
+          <div class="row">
+            <label>Pomodoro</label>
+            <input type="number" id="inputPomodoro" min="1" value="25" />
+            <span class="muted">minutes</span>
           </div>
-        </div>
-        <!-- Buttons -->
-        <div class="modal-actions">
-          <button type="button" id="closeNoSave" class="btn-gray">Close</button>
-          <button type="submit" class="btn-primary">Save changes</button>
-        </div>
-      </form>
-    </section>
-  </div>
-</div>
-<!-- Toggle button always visible bottom-left -->
-<button id="toggleAudioBtn" class="audio-toggle-btn" aria-label="Open audio player">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-  </svg>
-</button>
 
-<!-- The actual audio panel, hidden by default -->
-<div id="audioPanel" class="audio-panel" aria-hidden="true">
+          <div class="row">
+            <label>Short Break</label>
+            <input type="number" id="inputShort" min="1" value="5" />
+            <span class="muted">minutes</span>
+          </div>
 
-  <!-- YouTube music player (reuse your existing yt-music-player HTML here) -->
-  <div class="yt-music-player">
-    <!-- your yt player controls here -->
-    <img id="ytAlbumArt" class="album-art" src="https://i.imgur.com/325tCIz.png" alt="Album Art">
-    <div class="track-info">
-       <div id="youtube-player-container"></div>
-      <div id="ytSongTitle" class="song-title">Lofi Music</div>
-      <div id="ytSongArtist" class="song-artist">YouTube</div>
-    </div>
-    <div class="player-controls">
-      <button id="ytPrevBtn" title="Previous">⏮</button>
-      <button id="ytPlayPauseBtn" title="Play/Pause">▶</button>
-      <button id="ytNextBtn" title="Next">⏭</button>
-    </div>
-  </div>
+          <div class="row">
+            <label>Long Break</label>
+            <input type="number" id="inputLong" min="1" value="10" />
+            <span class="muted">minutes</span>
+          </div>
 
-  <!-- Background noise player -->
-  <div class="bg-noise-player">
-    <div class="noise-sound-buttons">
-      <button class="noise-btn" data-sound="airplane.mp3" aria-pressed="false" title="Airplane Cabin">✈️ <span>Airplane</span></button>
-      <button class="noise-btn" data-sound="rain.mp3" aria-pressed="false" title="Rain">🌧️ <span>Rain</span></button>
-      <button class="noise-btn" data-sound="street.mp3" aria-pressed="false" title="Busy Street">🚦 <span>Street</span></button>
-      <button class="noise-btn" data-sound="mall.mp3" aria-pressed="false" title="Shopping Mall">🛍️ <span>Mall</span></button>
-    </div>
-    <div class="noise-controls">
-      <button id="noiseToggleBtn" aria-pressed="false" title="Toggle Noise">🔈</button>
-      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
+          <div class="row toggle-row">
+            <label class="toggle-label">
+              <input type="checkbox" id="sequenceToggle" />
+              <span>Use Pomodoro sequence (4× short, then long)</span>
+            </label>
+          </div>
+
+          <div class="row" style="margin-top:20px;">
+            <label>Background image</label>
+            <div class="custom-select">
+              <select id="backgroundSelect">
+                <option value="photo1.webp">Photo 1</option>
+                <option value="photo2.webp">Photo 2</option>
+                <option value="photo3.webp">Photo 3</option>
+                <option value="photo4.webp">Photo 4</option>
+                <option value="photo5.webp">Photo 5</option>
+                <option value="photo6.webp">Photo 6</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" id="closeNoSave" class="btn-gray">Close</button>
+            <button type="submit" class="btn-primary">Save changes</button>
+          </div>
+        </form>
+      </section>
     </div>
   </div>
-</div>
 
+  <!-- Audio panel toggle -->
+  <button id="toggleAudioBtn" class="audio-toggle-btn" aria-label="Open audio player">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+    </svg>
+  </button>
 
+  <!-- Audio panel -->
+  <div id="audioPanel" class="audio-panel" aria-hidden="true">
+    <!-- YouTube player -->
+    <div class="yt-music-player">
+      <img id="ytAlbumArt" class="album-art" src="https://i.imgur.com/325tCIz.png" alt="Album Art">
+      <div class="track-info">
+        <div id="youtube-player-container"></div>
+        <div id="ytSongTitle" class="song-title">Lofi Music</div>
+        <div id="ytSongArtist" class="song-artist">YouTube</div>
+      </div>
+      <div class="player-controls">
+        <button id="ytPrevBtn" title="Previous">⏮</button>
+        <button id="ytPlayPauseBtn" title="Play/Pause">▶</button>
+        <button id="ytNextBtn" title="Next">⏭</button>
+      </div>
+    </div>
 
+    <!-- Background-noise player -->
+    <div class="bg-noise-player">
+      <div class="noise-sound-buttons">
+        <button class="noise-btn" data-sound="airplane.mp3" aria-pressed="false" title="Airplane Cabin">✈️ <span>Airplane</span></button>
+        <button class="noise-btn" data-sound="rain.mp3"  aria-pressed="false" title="Rain">🌧️ <span>Rain</span></button>
+        <button class="noise-btn" data-sound="street.mp3" aria-pressed="false" title="Busy Street">🚦 <span>Street</span></button>
+        <button class="noise-btn" data-sound="mall.mp3"  aria-pressed="false" title="Shopping Mall">🛍️ <span>Mall</span></button>
+      </div>
+      <div class="noise-controls">
+        <button id="noiseToggleBtn" aria-pressed="false" title="Toggle Noise">🔈</button>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
+      </div>
+    </div>
+  </div>
 
-
+  <!-- Alarm sound -->
   <audio id="alarmSound" src="alarm.mp3" preload="auto"></audio>
 
+  <!-- Scripts -->
   <script src="script.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    /* ========= YouTube Iframe API helpers ========= */
+    let ytPlayer;
+    const playlistId = 'PLxbcSyNvOY2_PE19P4u4s9GL3pSdHm744';
+
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('youtube-player-container', {
+        height: '0',
+        width: '0',
+        playerVars: { listType: 'playlist', list: playlistId },
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      event.target.setVolume(20);
+      console.log('YouTube Player is ready.');
+    }
+
+    function onPlayerStateChange(event) {
+      const btn = document.getElementById('ytPlayPauseBtn');
+     btn.innerHTML =
+  event.data === YT.PlayerState.PLAYING
+    ? `<svg viewBox="0 0 24 24" width="25" height="25" fill="currentColor"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>`
+    : `<svg viewBox="0 0 24 24" width="25" height="25" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+      if (event.data === YT.PlayerState.PLAYING) updatePlayerInfo();
+    }
+
+    function updatePlayerInfo() {
+      if (!ytPlayer || typeof ytPlayer.getVideoData !== 'function') return;
+      const data = ytPlayer.getVideoData();
+      document.getElementById('ytAlbumArt').src = `https://i.ytimg.com/vi/${data.video_id}/hqdefault.jpg`;
+      document.getElementById('ytSongTitle').textContent   = data.title;
+      document.getElementById('ytSongArtist').textContent  = data.author;
+    }
+
+    document.getElementById('ytPlayPauseBtn').addEventListener('click', () => {
+      const player = ytPlayer;
+      if (!player) return;
+      player.getPlayerState() === YT.PlayerState.PLAYING ? player.pauseVideo() : player.playVideo();
+    });
+
+    document.getElementById('ytNextBtn').addEventListener('click', () => ytPlayer?.nextVideo());
+    document.getElementById('ytPrevBtn').addEventListener('click', () => ytPlayer?.previousVideo());
+  </script>
 </body>
 </html>
-<script src="https://www.youtube.com/iframe_api"></script>
-<script>
-  let ytPlayer;
-  const playlistId = 'PLxbcSyNvOY2_PE19P4u4s9GL3pSdHm744';
-
-  // This function is called by the YouTube Iframe API when it's ready
-  function onYouTubeIframeAPIReady() {
-    ytPlayer = new YT.Player('youtube-player-container', {
-      height: '0',
-      width: '0',
-      playerVars: {
-        listType: 'playlist',
-        list: playlistId,
-      },
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-    });
-  }
-
-  // The API will call this function when the video player is ready.
-  function onPlayerReady(event) {
-    // Mute the player by default if you don't want sound immediately
-    event.target.setVolume(20); // Set initial volume to 50%
-    console.log("YouTube Player is ready.");
-  }
-
-  // This function is called when the player's state changes.
-  function onPlayerStateChange(event) {
-    const playPauseBtn = document.getElementById('ytPlayPauseBtn');
-    if (event.data == YT.PlayerState.PLAYING) {
-      playPauseBtn.textContent = '⏸';
-      updatePlayerInfo();
-    } else {
-      playPauseBtn.textContent = '▶';
-    }
-  }
-  
-  // Function to update the album art and text in our custom player
-  function updatePlayerInfo() {
-      if (ytPlayer && typeof ytPlayer.getVideoData === 'function') {
-        const videoData = ytPlayer.getVideoData();
-        const videoId = videoData.video_id;
-        document.getElementById('ytAlbumArt').src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-        document.getElementById('ytSongTitle').textContent = videoData.title;
-        document.getElementById('ytSongArtist').textContent = videoData.author;
-      }
-  }
-
-  // Add event listeners to our custom buttons
-  document.getElementById('ytPlayPauseBtn').addEventListener('click', () => {
-    if (ytPlayer.getPlayerState() == YT.PlayerState.PLAYING) {
-      ytPlayer.pauseVideo();
-    } else {
-      ytPlayer.playVideo();
-    }
-  });
-
-  document.getElementById('ytNextBtn').addEventListener('click', () => {
-    ytPlayer.nextVideo();
-  });
-
-  document.getElementById('ytPrevBtn').addEventListener('click', () => {
-    ytPlayer.previousVideo();
-  });
-</script>

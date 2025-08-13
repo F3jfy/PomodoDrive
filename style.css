@@ -800,10 +800,14 @@ input[type="number"]::-webkit-inner-spin-button {
   .yt-music-player .player-controls {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 4px;
   }
 
   .yt-music-player .player-controls button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: none;
     color: #e0e0e0;
@@ -824,3 +828,28 @@ input[type="number"]::-webkit-inner-spin-button {
     top: -9999px;
     left: -9999px;
   }
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeOut .4s 1.8s forwards;
+}
+
+.loader-car {
+  width: 240px;
+  height: auto;
+  opacity: 0;
+  animation:
+    fadeIn .3s .1s forwards,
+    drive .9s .4s cubic-bezier(.25, .46, .45, .94) forwards,
+    exit .3s 1.3s forwards;
+}
+
+@keyframes fadeIn { to { opacity: 1 } }
+@keyframes drive { to { transform: translateX(60vw) } }
+@keyframes exit { to { transform: translateX(160vw); opacity: 0 } }
+@keyframes fadeOut { to { opacity: 0; visibility: hidden } }
