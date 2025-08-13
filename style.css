@@ -57,9 +57,19 @@ main{position:relative;z-index:2;text-align:center;display:flex;flex-direction:c
 
 /* timer + ring */
 .timer-wrap{position:relative;display:flex;align-items:center;flex-direction:column}
-.timer{
-  font-size:5.2rem;font-weight:800;letter-spacing:0.6px;margin:8px 0;background:linear-gradient(180deg,#fff,#eaeaea);-webkit-background-clip:text;background-clip:text;color:transparent;
-  text-shadow:0 2px 0 rgba(0,0,0,0.18);
+.timer {
+ font-family: 'Roboto', sans-serif;
+  font-size: 5.2rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  margin: 8px 0;
+  
+  /* Your existing text styles */
+  background: linear-gradient(180deg, #fff, #eaeaea);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
 }
 /* Progress bar container */
 .progress-bar {
@@ -541,22 +551,43 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* Floating toggle button bottom-left */
 .audio-toggle-btn {
+  /* Existing styles */
   position: fixed;
   bottom: 20px;
   left: 20px;
   z-index: 1500;
-  background: rgba(255, 255, 255, 0.9);
-  color: #000;
-  border: none;
+  
+  /* Glassmorphism effect */
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* For Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  
+  color: #fff; /* Changed color for better contrast */
   padding: 14px 18px;
   border-radius: 9999px;
   font-size: 24px;
   cursor: pointer;
-  box-shadow: 0 6px 12px rgba(255, 255, 255, 0.6);
-  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Better transitions for all properties */
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+
+.audio-toggle-btn svg {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+}
+
 .audio-toggle-btn:hover {
-  background: #ffa7a7;
+  /* Liquid glass effect on hover */
+  background: rgba(255, 255, 255, 0.4); /* Make it more opaque */
+  box-shadow: 0 8px 24px rgba(255, 195, 195, 0.6); /* More pronounced, soft glow */
+  transform: scale(1.05); /* Slight "pop" effect */
 }
 
 .audio-panel {
